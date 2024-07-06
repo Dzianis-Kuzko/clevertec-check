@@ -2,18 +2,18 @@
 <h2 align="center"> Test task - Check</h2>
 
 
-## 📄 Task Description
+## Task Description
 
 ### [📝 Task](./documentation/test_task_for_course_clevertec.pdf)
 
-### 📝 Main Technologies
+###  Main Technologies
 
-  **-java 21**                                                               
+**-java 21**
 
 
-## ⚙️ Getting Started
+## Getting Started
 
-### ⏩ Task 1 ⏩
+### - Task 1 -
 * Clone the branch
 
 ```console
