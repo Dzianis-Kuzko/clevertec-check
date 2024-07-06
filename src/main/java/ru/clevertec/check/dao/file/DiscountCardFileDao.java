@@ -2,6 +2,8 @@ package main.java.ru.clevertec.check.dao.file;
 
 import main.java.ru.clevertec.check.core.dto.DiscountCardDTO;
 import main.java.ru.clevertec.check.dao.api.IDiscountCardDao;
+import main.java.ru.clevertec.check.exception.ExceptionMessage;
+import main.java.ru.clevertec.check.exception.InternalServerErrorException;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -16,6 +18,7 @@ public class DiscountCardFileDao implements IDiscountCardDao {
 
     @Override
     public DiscountCardDTO get(String number) {
+        DiscountCardDTO discountCardDTO = null;
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             br.readLine();
             String line;
@@ -26,13 +29,13 @@ public class DiscountCardFileDao implements IDiscountCardDao {
                     long id = Integer.parseInt(values[0]);
                     int discountAmount = Integer.parseInt(values[2]);
 
-                    return new DiscountCardDTO(id, number, discountAmount);
+                    discountCardDTO = new DiscountCardDTO(id, number, discountAmount);
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new InternalServerErrorException(ExceptionMessage.INTERNAL_SERVER_ERROR.getMessage(), e);
         }
 
-        return null;
+        return discountCardDTO;
     }
 }
