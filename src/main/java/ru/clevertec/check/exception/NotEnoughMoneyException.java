@@ -1,6 +1,6 @@
 package main.java.ru.clevertec.check.exception;
 
-public class NotEnoughMoneyException extends RuntimeException{
+public class NotEnoughMoneyException extends RuntimeException {
     public NotEnoughMoneyException() {
     }
 

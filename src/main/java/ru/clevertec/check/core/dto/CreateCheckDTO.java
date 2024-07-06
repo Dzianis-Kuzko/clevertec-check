@@ -6,7 +6,8 @@ public class CreateCheckDTO {
     private Map<Long, Integer> cartProducts;
     private String discountCardNumber;
     private double balanceDebitCard;
-    public  CreateCheckDTO(){
+
+    public CreateCheckDTO() {
 
     }
 

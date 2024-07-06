@@ -6,5 +6,6 @@ import main.java.ru.clevertec.check.printer.IPrinter;
 
 public interface ICheckService {
     Check createCheck(CreateCheckDTO createCheckDTO);
+
     void print(String message, IPrinter printer);
 }

@@ -6,15 +6,15 @@ import main.java.ru.clevertec.check.dao.file.DiscountCardFileDao;
 public final class DiscountCardDaoFactory {
     private static volatile IDiscountCardDao instance;
 
-    private DiscountCardDaoFactory(){
+    private DiscountCardDaoFactory() {
 
     }
 
-    public static IDiscountCardDao getInstance(String filePath){
-        if(instance ==null){
-            synchronized (DiscountCardDaoFactory.class){
-                if (instance ==null){
-                    instance= new DiscountCardFileDao(filePath);
+    public static IDiscountCardDao getInstance(String filePath) {
+        if (instance == null) {
+            synchronized (DiscountCardDaoFactory.class) {
+                if (instance == null) {
+                    instance = new DiscountCardFileDao(filePath);
                 }
             }
         }
