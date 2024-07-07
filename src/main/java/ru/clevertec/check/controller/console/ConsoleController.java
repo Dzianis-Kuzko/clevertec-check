@@ -20,32 +20,47 @@ import java.util.Map;
 
 
 public class ConsoleController {
-    private static final String PRODUCT_FILE_PATH = "./src/main/resources/products.csv";
-    private static final String DISCOUNT_CARD_FILE_PATH = "./src/main/resources/discountCards.csv";
-    private static final String RESULT_FILE_PATH = "result.csv";
-    private final ICheckService checkService;
+    private final static String RESULT_FILE_DEFAULT_PATH = "result.csv";
+    private final static String DISCOUNT_CARD_FILE_PATH = "./src/main/resources/discountCards.csv";
+    private final static String PREFIX_PARAM_DISCOUNT_CARD = "discountCard=";
+    private final static String PREFIX_PARAM_BALANCE_DEBIT_CARD = "balanceDebitCard=";
+    private final static String PREFIX_PARAM_PRODUCT_FILE_PATH = "pathToFile=";
+    private final static String PREFIX_PARAM_RESULT_FILE_PATH = "saveToFile=";
+
+    private static String productFilePath;
+    private static String resultFilePath;
+
     private final CheckFormatter checkFormatter;
 
+    private ICheckService checkService;
+
     public ConsoleController() {
-        this.checkService = new CheckService(
-                ProductServiceFactory.getInstance(PRODUCT_FILE_PATH),
-                DiscountCardServiceFactory.getInstance(DISCOUNT_CARD_FILE_PATH));
         this.checkFormatter = new CheckFormatter();
     }
 
     public void processCheck(String[] args) {
         Check check = null;
         Exception exception = null;
+        CreateCheckDTO createCheckDTO = null;
 
         try {
-            check = checkService.createCheck(parseCommandLineArgs(args));
+            createCheckDTO = parseCommandLineArgs(args);
+
+            initializeCheckService();
+
+            check = checkService.createCheck(createCheckDTO);
+
         } catch (BadRequestException | NotEnoughMoneyException | InternalServerErrorException e) {
             exception = e;
+            initializeCheckService();
+
         } catch (Exception e) {
             exception = new InternalServerErrorException(ExceptionMessage.INTERNAL_SERVER_ERROR.getMessage(), e);
+            initializeCheckService();
         }
 
         printCheck(check, exception, args);
+
 
     }
 
@@ -57,17 +72,20 @@ public class ConsoleController {
 
         try {
             for (String arg : args) {
-
-                if (arg.startsWith("discountCard=")) {
-
+                if (arg.startsWith(PREFIX_PARAM_DISCOUNT_CARD)) {
                     discountCardNumber = splitBySeparator(arg, "=")[1];
 
-                } else if (arg.startsWith("balanceDebitCard=")) {
-
+                } else if (arg.startsWith(PREFIX_PARAM_BALANCE_DEBIT_CARD)) {
                     balanceDebitCard = Double.parseDouble(splitBySeparator(arg, "=")[1]);
 
-                } else if (arg.contains("-")) {
+                } else if (arg.startsWith(PREFIX_PARAM_PRODUCT_FILE_PATH)) {
+                    productFilePath = splitBySeparator(arg, "=")[1];
 
+
+                } else if (arg.startsWith(PREFIX_PARAM_RESULT_FILE_PATH)) {
+                    resultFilePath = splitBySeparator(arg, "=")[1];
+
+                } else if (arg.contains("-")) {
                     String[] parts = splitBySeparator(arg, "-");
 
                     long id = Long.parseLong(parts[0]);
@@ -80,7 +98,11 @@ public class ConsoleController {
             throw new BadRequestException(ExceptionMessage.BAD_REQUEST.getMessage(), e);
         }
 
-        if (productQuantities.isEmpty() || balanceDebitCard == null) {
+        if (productQuantities.isEmpty()
+                || balanceDebitCard == null
+                || productFilePath == null
+                || resultFilePath == null
+        ) {
             throw new BadRequestException(ExceptionMessage.BAD_REQUEST.getMessage());
         }
 
@@ -91,9 +113,13 @@ public class ConsoleController {
     private void printCheck(Check check, Exception exception, String[] args) {
         String message;
 
+        if (resultFilePath == null) {
+            resultFilePath = RESULT_FILE_DEFAULT_PATH;
+        }
+
         if (exception != null) {
             message = checkFormatter.formatErrorForCsv(exception.getMessage());
-            checkService.print(message, new FilePrinter(RESULT_FILE_PATH));
+            checkService.print(message, new FilePrinter(resultFilePath));
             checkService.print(message, new ConsolePrinter());
             checkService.print(Arrays.toString(args), new ConsolePrinter());
             exception.printStackTrace(System.out);
@@ -102,7 +128,7 @@ public class ConsoleController {
 
         message = checkFormatter.formatCheckForCSV(check);
 
-        checkService.print(message, new FilePrinter(RESULT_FILE_PATH));
+        checkService.print(message, new FilePrinter(resultFilePath));
         checkService.print(message, new ConsolePrinter());
         checkService.print(Arrays.toString(args), new ConsolePrinter());
     }
@@ -115,6 +141,13 @@ public class ConsoleController {
         }
 
         return parts;
+    }
+
+    private void initializeCheckService() {
+        this.checkService = new CheckService(
+                ProductServiceFactory.getInstance(productFilePath),
+                DiscountCardServiceFactory.getInstance(DISCOUNT_CARD_FILE_PATH)
+        );
     }
 
 }
