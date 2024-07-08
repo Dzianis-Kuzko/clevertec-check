@@ -1,8 +1,9 @@
-package main.java.ru.clevertec.check.service.factory;
+package ru.clevertec.check.service.factory;
 
-import main.java.ru.clevertec.check.dao.factory.ProductDaoFactory;
-import main.java.ru.clevertec.check.service.ProductService;
-import main.java.ru.clevertec.check.service.api.IProductService;
+import ru.clevertec.check.dao.db.ds.DatabaseConfig;
+import ru.clevertec.check.dao.factory.ProductDaoFactory;
+import ru.clevertec.check.service.ProductService;
+import ru.clevertec.check.service.api.IProductService;
 
 public final class ProductServiceFactory {
     private static volatile IProductService instance;
@@ -10,11 +11,11 @@ public final class ProductServiceFactory {
     private ProductServiceFactory() {
     }
 
-    public static IProductService getInstance(String filePath) {
+    public static IProductService getInstance(DatabaseConfig databaseConfig) {
         if (instance == null) {
             synchronized (ProductServiceFactory.class) {
                 if (instance == null) {
-                    instance = new ProductService(ProductDaoFactory.getInstance(filePath));
+                    instance = new ProductService(ProductDaoFactory.getInstance(databaseConfig));
                 }
             }
         }

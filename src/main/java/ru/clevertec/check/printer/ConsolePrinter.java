@@ -1,4 +1,4 @@
-package main.java.ru.clevertec.check.printer;
+package ru.clevertec.check.printer;
 
 public class ConsolePrinter implements IPrinter {
     @Override

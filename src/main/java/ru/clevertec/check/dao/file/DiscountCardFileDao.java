@@ -1,9 +1,9 @@
-package main.java.ru.clevertec.check.dao.file;
+package ru.clevertec.check.dao.file;
 
-import main.java.ru.clevertec.check.core.dto.DiscountCardDTO;
-import main.java.ru.clevertec.check.dao.api.IDiscountCardDao;
-import main.java.ru.clevertec.check.exception.ExceptionMessage;
-import main.java.ru.clevertec.check.exception.InternalServerErrorException;
+import ru.clevertec.check.core.dto.DiscountCardDTO;
+import ru.clevertec.check.dao.api.IDiscountCardDao;
+import ru.clevertec.check.exception.ExceptionMessage;
+import ru.clevertec.check.exception.InternalServerErrorException;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

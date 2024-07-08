@@ -1,16 +1,16 @@
-package main.java.ru.clevertec.check.service;
+package ru.clevertec.check.service;
 
-import main.java.ru.clevertec.check.core.Check;
-import main.java.ru.clevertec.check.core.dto.CreateCheckDTO;
-import main.java.ru.clevertec.check.core.dto.DiscountCardDTO;
-import main.java.ru.clevertec.check.core.dto.ProductDTO;
-import main.java.ru.clevertec.check.exception.BadRequestException;
-import main.java.ru.clevertec.check.exception.ExceptionMessage;
-import main.java.ru.clevertec.check.exception.NotEnoughMoneyException;
-import main.java.ru.clevertec.check.printer.IPrinter;
-import main.java.ru.clevertec.check.service.api.ICheckService;
-import main.java.ru.clevertec.check.service.api.IDiscountCardService;
-import main.java.ru.clevertec.check.service.api.IProductService;
+import ru.clevertec.check.core.Check;
+import ru.clevertec.check.core.dto.CreateCheckDTO;
+import ru.clevertec.check.core.dto.DiscountCardDTO;
+import ru.clevertec.check.core.dto.ProductDTO;
+import ru.clevertec.check.exception.BadRequestException;
+import ru.clevertec.check.exception.ExceptionMessage;
+import ru.clevertec.check.exception.NotEnoughMoneyException;
+import ru.clevertec.check.printer.IPrinter;
+import ru.clevertec.check.service.api.ICheckService;
+import ru.clevertec.check.service.api.IDiscountCardService;
+import ru.clevertec.check.service.api.IProductService;
 
 import java.util.Map;
 
@@ -62,7 +62,7 @@ public class CheckService implements ICheckService {
         return true;
     }
 
-    public static boolean hasTwoOrFewerDecimalPlaces(double value) {
+    private boolean hasTwoOrFewerDecimalPlaces(double value) {
         double scaledValue = value * 100;
         return scaledValue == Math.floor(scaledValue);
     }

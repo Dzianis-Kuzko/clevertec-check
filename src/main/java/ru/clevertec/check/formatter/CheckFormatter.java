@@ -1,7 +1,7 @@
-package main.java.ru.clevertec.check.formatter;
+package ru.clevertec.check.formatter;
 
-import main.java.ru.clevertec.check.core.CartProduct;
-import main.java.ru.clevertec.check.core.Check;
+import ru.clevertec.check.core.CartProduct;
+import ru.clevertec.check.core.Check;
 
 import java.time.format.DateTimeFormatter;
 

@@ -1,4 +1,4 @@
-package main.java.ru.clevertec.check.exception;
+package ru.clevertec.check.exception;
 
 public enum ExceptionMessage {
     BAD_REQUEST("BAD REQUEST"),

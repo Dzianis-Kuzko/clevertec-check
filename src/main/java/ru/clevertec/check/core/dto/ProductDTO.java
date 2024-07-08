@@ -1,4 +1,4 @@
-package main.java.ru.clevertec.check.core.dto;
+package ru.clevertec.check.core.dto;
 
 public class ProductDTO {
     private long id;

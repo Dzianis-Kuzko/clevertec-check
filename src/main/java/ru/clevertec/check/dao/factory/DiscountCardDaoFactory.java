@@ -1,7 +1,9 @@
-package main.java.ru.clevertec.check.dao.factory;
+package ru.clevertec.check.dao.factory;
 
-import main.java.ru.clevertec.check.dao.api.IDiscountCardDao;
-import main.java.ru.clevertec.check.dao.file.DiscountCardFileDao;
+import ru.clevertec.check.dao.api.IDiscountCardDao;
+import ru.clevertec.check.dao.db.DiscountCardJDBCDao;
+import ru.clevertec.check.dao.db.ds.DatabaseConfig;
+import ru.clevertec.check.dao.file.DiscountCardFileDao;
 
 public final class DiscountCardDaoFactory {
     private static volatile IDiscountCardDao instance;
@@ -10,11 +12,11 @@ public final class DiscountCardDaoFactory {
 
     }
 
-    public static IDiscountCardDao getInstance(String filePath) {
+    public static IDiscountCardDao getInstance(DatabaseConfig databaseConfig) {
         if (instance == null) {
             synchronized (DiscountCardDaoFactory.class) {
                 if (instance == null) {
-                    instance = new DiscountCardFileDao(filePath);
+                    instance = new DiscountCardJDBCDao(databaseConfig);
                 }
             }
         }

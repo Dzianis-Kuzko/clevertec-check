@@ -1,7 +1,7 @@
-package main.java.ru.clevertec.check.core;
+package ru.clevertec.check.core;
 
-import main.java.ru.clevertec.check.core.dto.DiscountCardDTO;
-import main.java.ru.clevertec.check.core.dto.ProductDTO;
+import ru.clevertec.check.core.dto.DiscountCardDTO;
+import ru.clevertec.check.core.dto.ProductDTO;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

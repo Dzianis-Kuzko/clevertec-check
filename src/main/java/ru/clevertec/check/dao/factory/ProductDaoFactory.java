@@ -1,7 +1,10 @@
-package main.java.ru.clevertec.check.dao.factory;
+package ru.clevertec.check.dao.factory;
 
-import main.java.ru.clevertec.check.dao.api.IProductDao;
-import main.java.ru.clevertec.check.dao.file.ProductFileDao;
+import ru.clevertec.check.dao.api.IProductDao;
+import ru.clevertec.check.dao.db.ProductJDBCDao;
+import ru.clevertec.check.dao.db.ds.DatabaseConfig;
+import ru.clevertec.check.dao.db.ds.DatabaseConnectionFactory;
+import ru.clevertec.check.dao.file.ProductFileDao;
 
 public final class ProductDaoFactory {
     private static volatile IProductDao instance;
@@ -9,11 +12,11 @@ public final class ProductDaoFactory {
     private ProductDaoFactory() {
     }
 
-    public static IProductDao getInstance(String filePath) {
+    public static IProductDao getInstance(DatabaseConfig databaseConfig) {
         if (instance == null) {
             synchronized (ProductDaoFactory.class) {
                 if (instance == null) {
-                    instance = new ProductFileDao(filePath);
+                    instance = new ProductJDBCDao(databaseConfig);
                 }
             }
         }

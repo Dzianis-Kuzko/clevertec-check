@@ -1,6 +1,6 @@
-package main.java.ru.clevertec.check;
+package ru.clevertec.check;
 
-import main.java.ru.clevertec.check.controller.console.ConsoleController;
+import ru.clevertec.check.controller.console.ConsoleController;
 
 public class CheckRunner {
     public static void main(String[] args) {

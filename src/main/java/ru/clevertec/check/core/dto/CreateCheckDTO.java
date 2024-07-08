@@ -1,4 +1,4 @@
-package main.java.ru.clevertec.check.core.dto;
+package ru.clevertec.check.core.dto;
 
 import java.util.Map;
 

@@ -1,18 +1,19 @@
-package main.java.ru.clevertec.check.controller.console;
+package ru.clevertec.check.controller.console;
 
-import main.java.ru.clevertec.check.core.Check;
-import main.java.ru.clevertec.check.core.dto.CreateCheckDTO;
-import main.java.ru.clevertec.check.exception.BadRequestException;
-import main.java.ru.clevertec.check.exception.ExceptionMessage;
-import main.java.ru.clevertec.check.exception.InternalServerErrorException;
-import main.java.ru.clevertec.check.exception.NotEnoughMoneyException;
-import main.java.ru.clevertec.check.formatter.CheckFormatter;
-import main.java.ru.clevertec.check.printer.ConsolePrinter;
-import main.java.ru.clevertec.check.printer.FilePrinter;
-import main.java.ru.clevertec.check.service.CheckService;
-import main.java.ru.clevertec.check.service.api.ICheckService;
-import main.java.ru.clevertec.check.service.factory.DiscountCardServiceFactory;
-import main.java.ru.clevertec.check.service.factory.ProductServiceFactory;
+import ru.clevertec.check.core.Check;
+import ru.clevertec.check.core.dto.CreateCheckDTO;
+import ru.clevertec.check.dao.db.ds.DatabaseConfig;
+import ru.clevertec.check.exception.BadRequestException;
+import ru.clevertec.check.exception.ExceptionMessage;
+import ru.clevertec.check.exception.InternalServerErrorException;
+import ru.clevertec.check.exception.NotEnoughMoneyException;
+import ru.clevertec.check.formatter.CheckFormatter;
+import ru.clevertec.check.printer.ConsolePrinter;
+import ru.clevertec.check.printer.FilePrinter;
+import ru.clevertec.check.service.CheckService;
+import ru.clevertec.check.service.api.ICheckService;
+import ru.clevertec.check.service.factory.DiscountCardServiceFactory;
+import ru.clevertec.check.service.factory.ProductServiceFactory;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,14 +22,17 @@ import java.util.Map;
 
 public class ConsoleController {
     private final static String RESULT_FILE_DEFAULT_PATH = "result.csv";
-    private final static String DISCOUNT_CARD_FILE_PATH = "./src/main/resources/discountCards.csv";
     private final static String PREFIX_PARAM_DISCOUNT_CARD = "discountCard=";
     private final static String PREFIX_PARAM_BALANCE_DEBIT_CARD = "balanceDebitCard=";
-    private final static String PREFIX_PARAM_PRODUCT_FILE_PATH = "pathToFile=";
     private final static String PREFIX_PARAM_RESULT_FILE_PATH = "saveToFile=";
+    private final static String PREFIX_PARAM_DATASOURCE_URL = "datasource.url=";
+    private final static String PREFIX_PARAM_DATASOURCE_USERNAME = "datasource.username=";
+    private final static String PREFIX_PARAM_DATASOURCE_PASSWORD = "datasource.password=";
 
-    private static String productFilePath;
-    private static String resultFilePath;
+    private String resultFilePath;
+    private String datasourceUrl;
+    private String datasourceUsername;
+    private String datasourcePassword;
 
     private final CheckFormatter checkFormatter;
 
@@ -78,12 +82,17 @@ public class ConsoleController {
                 } else if (arg.startsWith(PREFIX_PARAM_BALANCE_DEBIT_CARD)) {
                     balanceDebitCard = Double.parseDouble(splitBySeparator(arg, "=")[1]);
 
-                } else if (arg.startsWith(PREFIX_PARAM_PRODUCT_FILE_PATH)) {
-                    productFilePath = splitBySeparator(arg, "=")[1];
-
-
                 } else if (arg.startsWith(PREFIX_PARAM_RESULT_FILE_PATH)) {
                     resultFilePath = splitBySeparator(arg, "=")[1];
+
+                } else if (arg.startsWith(PREFIX_PARAM_DATASOURCE_URL)) {
+                    datasourceUrl = splitBySeparator(arg, "=")[1];
+
+                } else if (arg.startsWith(PREFIX_PARAM_DATASOURCE_USERNAME)) {
+                    datasourceUsername = splitBySeparator(arg, "=")[1];
+
+                } else if (arg.startsWith(PREFIX_PARAM_DATASOURCE_PASSWORD)) {
+                    datasourcePassword = splitBySeparator(arg, "=")[1];
 
                 } else if (arg.contains("-")) {
                     String[] parts = splitBySeparator(arg, "-");
@@ -100,8 +109,11 @@ public class ConsoleController {
 
         if (productQuantities.isEmpty()
                 || balanceDebitCard == null
-                || productFilePath == null
                 || resultFilePath == null
+                || datasourceUrl == null
+                || datasourceUsername == null
+                || datasourcePassword == null
+
         ) {
             throw new BadRequestException(ExceptionMessage.BAD_REQUEST.getMessage());
         }
@@ -144,9 +156,10 @@ public class ConsoleController {
     }
 
     private void initializeCheckService() {
+        DatabaseConfig databaseConfig = new DatabaseConfig(datasourceUrl, datasourceUsername, datasourcePassword);
         this.checkService = new CheckService(
-                ProductServiceFactory.getInstance(productFilePath),
-                DiscountCardServiceFactory.getInstance(DISCOUNT_CARD_FILE_PATH)
+                ProductServiceFactory.getInstance(databaseConfig),
+                DiscountCardServiceFactory.getInstance(databaseConfig)
         );
     }
 
