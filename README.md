@@ -10,6 +10,11 @@
 
 **-java 21**
 
+**-Gradle 8.5**
+
+**-JDBC**
+
+**-PostgreSQL**
 
 ## Getting Started
 
