@@ -9,14 +9,14 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class DiscountCardFileDao implements IDiscountCardDao {
+public class DiscountCardFileDao  {
     private String filePath;
 
     public DiscountCardFileDao(String filePath) {
         this.filePath = filePath;
     }
 
-    @Override
+   // @Override
     public DiscountCardDTO get(String number) {
         DiscountCardDTO discountCardDTO = null;
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {

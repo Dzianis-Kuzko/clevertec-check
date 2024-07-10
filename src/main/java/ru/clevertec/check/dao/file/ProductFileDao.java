@@ -9,14 +9,14 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class ProductFileDao implements IProductDao {
+public class ProductFileDao   {
     private String filePath;
 
     public ProductFileDao(String filePath) {
         this.filePath = filePath;
     }
 
-    @Override
+    //@Override
     public ProductDTO get(long id) {
         ProductDTO productDTO = null;
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {

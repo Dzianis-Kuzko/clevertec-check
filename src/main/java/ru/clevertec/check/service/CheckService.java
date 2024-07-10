@@ -38,6 +38,8 @@ public class CheckService implements ICheckService {
 
         validateSufficientBalance(createCheckDTO, check);
 
+        reduceProductQuantities(createCheckDTO.getCartProducts());
+
         return check;
     }
 
@@ -125,4 +127,15 @@ public class CheckService implements ICheckService {
             }
         }
     }
+
+    private void reduceProductQuantities(Map<Long, Integer> cartProducts) {
+
+        for (Long id : cartProducts.keySet()) {
+            ProductDTO productDTO = this.productService.get(id);
+            productDTO.setQuantityInStock(productDTO.getQuantityInStock() - cartProducts.get(id));
+            this.productService.update(productDTO);
+        }
+    }
+
+
 }

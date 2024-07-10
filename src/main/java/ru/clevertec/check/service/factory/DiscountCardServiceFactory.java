@@ -13,7 +13,7 @@ public class DiscountCardServiceFactory {
 
     public static IDiscountCardService getInstance(DatabaseConfig databaseConfig) {
         if (instance == null) {
-            synchronized (ProductServiceFactory.class) {
+            synchronized (DiscountCardServiceFactory.class) {
                 if (instance == null) {
                     instance = new DiscountCardService(DiscountCardDaoFactory.getInstance(databaseConfig));
                 }

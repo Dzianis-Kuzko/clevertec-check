@@ -1,31 +1,17 @@
 package ru.clevertec.check.core.dto;
 
-public class DiscountCardDTO {
-    private long id;
+public class CreateDiscountCardDTO {
     private String number;
     private int discountAmount;
 
-    public DiscountCardDTO() {
+    public CreateDiscountCardDTO() {
     }
 
-    public DiscountCardDTO(CreateDiscountCardDTO createDiscountCardDTO){
-        this.number = createDiscountCardDTO.getNumber();
-        this.discountAmount = createDiscountCardDTO.getDiscountAmount();
-    }
-
-    public DiscountCardDTO(long id, String number, int discountAmount) {
-        this.id = id;
+    public CreateDiscountCardDTO(String number, int discountAmount) {
         this.number = number;
         this.discountAmount = discountAmount;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getNumber() {
         return number;
@@ -48,26 +34,23 @@ public class DiscountCardDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        DiscountCardDTO that = (DiscountCardDTO) o;
+        CreateDiscountCardDTO that = (CreateDiscountCardDTO) o;
 
-        if (id != that.id) return false;
         if (discountAmount != that.discountAmount) return false;
         return number.equals(that.number);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + number.hashCode();
+        int result = number.hashCode();
         result = 31 * result + discountAmount;
         return result;
     }
 
     @Override
     public String toString() {
-        return "DiscountCardDTO{" +
-                "id=" + id +
-                ", number='" + number + '\'' +
+        return "CreateDiscountCardDTO{" +
+                "number='" + number + '\'' +
                 ", discountAmount=" + discountAmount +
                 '}';
     }

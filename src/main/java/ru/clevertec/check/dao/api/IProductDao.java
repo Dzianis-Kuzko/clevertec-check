@@ -1,6 +1,7 @@
 package ru.clevertec.check.dao.api;
 
+import ru.clevertec.check.core.dto.CreateProductDTO;
 import ru.clevertec.check.core.dto.ProductDTO;
 
-public interface IProductDao extends ICRUDDao<ProductDTO> {
+public interface IProductDao extends ICRUDDao<ProductDTO, CreateProductDTO> {
 }

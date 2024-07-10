@@ -1,7 +1,6 @@
 package ru.clevertec.check.core.dto;
 
-public class ProductDTO {
-    private long id;
+public class CreateProductDTO {
     private String description;
     private double price;
 
@@ -9,30 +8,14 @@ public class ProductDTO {
 
     private boolean isWholesaleProduct;
 
-    public ProductDTO() {
+    public CreateProductDTO() {
     }
 
-    public ProductDTO(long id, String description, double price, int quantityInStock, boolean isWholesaleProduct) {
-        this.id = id;
+    public CreateProductDTO(String description, double price, int quantityInStock, boolean isWholesaleProduct) {
         this.description = description;
         this.price = price;
         this.quantityInStock = quantityInStock;
         this.isWholesaleProduct = isWholesaleProduct;
-    }
-
-    public ProductDTO(CreateProductDTO createProductDTO) {
-        this.description = createProductDTO.getDescription();
-        this.price = createProductDTO.getPrice();
-        this.quantityInStock = createProductDTO.getQuantityInStock();
-        this.isWholesaleProduct = createProductDTO.isWholesaleProduct();
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getDescription() {
@@ -72,9 +55,8 @@ public class ProductDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ProductDTO that = (ProductDTO) o;
+        CreateProductDTO that = (CreateProductDTO) o;
 
-        if (id != that.id) return false;
         if (Double.compare(price, that.price) != 0) return false;
         if (quantityInStock != that.quantityInStock) return false;
         if (isWholesaleProduct != that.isWholesaleProduct) return false;
@@ -85,8 +67,7 @@ public class ProductDTO {
     public int hashCode() {
         int result;
         long temp;
-        result = (int) (id ^ (id >>> 32));
-        result = 31 * result + description.hashCode();
+        result = description.hashCode();
         temp = Double.doubleToLongBits(price);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + quantityInStock;
@@ -96,9 +77,8 @@ public class ProductDTO {
 
     @Override
     public String toString() {
-        return "ProductDTO{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
+        return "CreateProductDTO{" +
+                "description='" + description + '\'' +
                 ", price=" + price +
                 ", quantityInStock=" + quantityInStock +
                 ", isWholesaleProduct=" + isWholesaleProduct +
