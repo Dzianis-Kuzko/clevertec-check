@@ -12,7 +12,7 @@ public class DiscountCardServiceFactory {
 
     public static IDiscountCardService getInstance(String filePath) {
         if (instance == null) {
-            synchronized (ProductServiceFactory.class) {
+            synchronized (DiscountCardServiceFactory.class) {
                 if (instance == null) {
                     instance = new DiscountCardService(DiscountCardDaoFactory.getInstance(filePath));
                 }
