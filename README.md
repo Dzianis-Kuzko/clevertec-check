@@ -43,13 +43,13 @@ git clone --single-branch -b feature/entry-file https://github.com/Dzianis-Kuzko
 * Go  to the "src"  folder
 * Compile the application
 ```console
-javac -d .\out\src main\java\ru\clevertec\check\CheckRunner.java
+javac -cp src -d .\out\src .\src\main\java\ru\clevertec\check\CheckRunner.java
 ```
 * Add the resources  folder  with the files
 * Go  to the "out"  folder
 * Run the application
 ```console
-java -cp src main.java.ru.clevertec.check.CheckRunner 1-3 13-5 1-2 9-1 4-10 4-20 1-1 discountCard=1111 balanceDebitCard=100.48 pathToFile=./src/main/resources/products.csv saveToFile=./src/main/result.csv
+java -cp out\src main.java.ru.clevertec.check.CheckRunner 1-3 13-5 1-2 9-1 4-10 4-20 1-1 discountCard=1111 balanceDebitCard=100.48 pathToFile=./src/main/resources/products.csv saveToFile=./src/main/result.csv
 ```
 
 
