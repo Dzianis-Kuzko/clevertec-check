@@ -40,7 +40,7 @@ javac -cp src -d .\out\src .\src\main\java\ru\clevertec\check\CheckRunner.java
 git clone --single-branch -b feature/entry-file https://github.com/Dzianis-Kuzko/clevertec-check.git
 ```
 
-* Go  to the "src"  folder
+* Go  to the "clevertec-check"  folder
 * Compile the application
 ```console
 javac -cp src -d .\out\src .\src\main\java\ru\clevertec\check\CheckRunner.java
