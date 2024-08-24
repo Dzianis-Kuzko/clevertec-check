@@ -3,7 +3,6 @@ package ru.clevertec.check.dao.factory;
 import ru.clevertec.check.dao.api.IDiscountCardDao;
 import ru.clevertec.check.dao.db.DiscountCardJDBCDao;
 import ru.clevertec.check.dao.db.ds.DatabaseConfig;
-import ru.clevertec.check.dao.file.DiscountCardFileDao;
 
 public final class DiscountCardDaoFactory {
     private static volatile IDiscountCardDao instance;

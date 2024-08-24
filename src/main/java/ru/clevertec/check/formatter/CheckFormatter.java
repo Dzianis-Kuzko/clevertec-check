@@ -54,10 +54,6 @@ public class CheckFormatter {
         return sb.toString();
     }
 
-    public String formatErrorForCsv(String ErrorMessage) {
-        return "ERROR\n" + ErrorMessage;
-    }
-
     public CreateCheckDTO parseCreateCheckDTO(String jsonString) {
         JsonNode jsonNode = null;
         CreateCheckDTO createCheckDTO = new CreateCheckDTO();
