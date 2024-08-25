@@ -19,7 +19,7 @@ public class ProductJDBCDao implements IProductDao {
         this.databaseConfig = databaseConfig;
     }
 
-    // @Override
+    @Override
     public ProductDTO get(long id) {
         ProductDTO productDTO = null;
 

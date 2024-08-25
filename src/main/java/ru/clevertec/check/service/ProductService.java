@@ -12,7 +12,7 @@ public class ProductService implements IProductService {
         this.productDao = productDao;
     }
 
-    //@Override
+    @Override
     public ProductDTO get(long id) {
         return productDao.get(id);
     }
