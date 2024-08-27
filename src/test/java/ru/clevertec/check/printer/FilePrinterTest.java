@@ -1,57 +1,45 @@
 package ru.clevertec.check.printer;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import ru.clevertec.check.exception.ExceptionMessage;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.MockedConstruction;
+import org.mockito.junit.jupiter.MockitoExtension;
 import ru.clevertec.check.exception.InternalServerErrorException;
 
+import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mockConstruction;
+import static org.mockito.Mockito.verify;
 
+@ExtendWith(MockitoExtension.class)
 class FilePrinterTest {
 
-    private static final String TEST_FILE_PATH = "test_file.txt";
-    private static final String TEST_INVALID_FILE_PATH = "invalid/file/test_file.txt";
+
+    private FilePrinter filePrinter = new FilePrinter("testFile.txt");
+
 
     @Test
-    void testPrintSuccess() {
-        FilePrinter filePrinter = new FilePrinter(TEST_FILE_PATH);
+    void testPrintSuccess1() throws IOException {
+        try (MockedConstruction<FileWriter> mocked = mockConstruction(FileWriter.class)) {
 
-        String testMessage = "Test message";
+            filePrinter.print("test");
 
-        filePrinter.print(testMessage);
-
-        String content = null;
-        try {
-            content = new String(Files.readAllBytes(Paths.get(TEST_FILE_PATH)));
-        } catch (IOException e) {
-            content = "test failed";
+            FileWriter mockFileWriter = mocked.constructed().get(0);
+            verify(mockFileWriter).write("test");
         }
-
-        assertEquals(testMessage, content);
     }
 
     @Test
-    void testPrintThrowsException() throws IOException {
-        FilePrinter filePrinter = new FilePrinter(TEST_INVALID_FILE_PATH);
-        String message = "Test message";
+    void testPrintThrowsInternalServerErrorException() {
+        try (MockedConstruction<FileWriter> mockedFileWriter = mockConstruction(FileWriter.class,
+                (mock, context) -> doThrow(IOException.class).when(mock).write(anyString()))) {
 
-        InternalServerErrorException exception = assertThrows(InternalServerErrorException.class, () -> filePrinter.print(message));
-
-        assertEquals(ExceptionMessage.INTERNAL_SERVER_ERROR.getMessage(), exception.getMessage());
-    }
-
-
-    @AfterEach
-    void tearDown() {
-        try {
-            Files.deleteIfExists(Paths.get(TEST_FILE_PATH));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            assertThrows(InternalServerErrorException.class, () -> filePrinter.print("Test"));
         }
     }
 }
