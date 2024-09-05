@@ -43,11 +43,6 @@ public class CheckService implements ICheckService {
         return check;
     }
 
-    @Override
-    public void print(String message, IPrinter printer) {
-        printer.print(message);
-    }
-
     private void validateDataForCheck(CreateCheckDTO createCheckDTO) {
         validateDiscountCardNumber(createCheckDTO.getDiscountCardNumber());
         validateBalanceDebitCard(createCheckDTO.getBalanceDebitCard());
